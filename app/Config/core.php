@@ -19,6 +19,20 @@
  */
 
 /**
+ * Enabling this option probably removes some of the vulnerabilities in the
+ * application. This allows you to delineate between the attack resistant code
+ * and vulnerable code. In other words, you can see the right way of programming
+ * and the wrong way.
+ *
+ * Note that even the attack resistant code may contain vulnerabilities, but I
+ * made an effort to make them less vulnerable. I do not assume any
+ * responsibility for any damages that occur from code based on this project,
+ * its attack resistant code and examples. I do not guarantee that the attack
+ * resistant code is free of vulnerabilities.
+ */
+  Configure::write('moreSecure', FALSE);
+
+/**
  * CakePHP Debug Level:
  *
  * Production Mode:
