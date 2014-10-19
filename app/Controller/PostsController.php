@@ -21,13 +21,14 @@ App::uses('AppController', 'Controller');
 /**
  * This class processes requests about users.
  */
-class UsersController extends AppController {
+class PostsController extends AppController {
   public function add($id = NULL) {
     $this->request->allowMethod(array('GET', 'POST'));
 
     if ($this->request->is('POST')) {
-      if ($this->User->save($this->request->data)) {
-        $this->Session->setFlash($this->User->alias . ' Saved');
+      $this->request->data['Post']['user_id'] = $this->Auth->user('id');
+      if ($this->Post->save($this->request->data)) {
+        $this->Session->setFlash($this->Post->alias . ' Saved');
         $this->redirect(array('action' => 'index'));
       }
     }
@@ -36,54 +37,48 @@ class UsersController extends AppController {
   public function beforeFilter() {
     parent::beforeFilter();
 
-    $this->Auth->allow('login', 'logout');
+    $this->Auth->allow('index');
+  }
+
+  public function delete($id = NULL) {
+    $this->request->allowMethod('DELETE');
+
+    if ($this->Post->delete($id)) {
+      $this->Session->setFlash($this->Post->alias . ' Deleted');
+      $this->redirect(array('action' => 'index'));
+    } else {
+      throw new NotFoundException('No such post exists');
+    }
   }
 
   public function edit($id = NULL) {
     $this->request->allowMethod(array('GET', 'POST', 'PUT'));
 
     if ($this->request->is('GET')) {
-      $user = $this->User->find('first', array(
+      $post = $this->Post->find('first', array(
         'conditions' => array(
-          'User.id' => $id
+          'Post.id' => $id
         )
       ));
 
-      if ($user) {
-        $this->request->data = $user;
+      if ($post) {
+        $this->request->data = $post;
       } else {
         throw new NotFoundException('No such user exists');
       }
     } else if ($this->request->is(array('POST', 'PUT'))) {
-      if ($this->User->save($this->request->data)) {
-        $this->Session->setFlash($this->User->alias . ' Saved');
+      if ($this->Post->save($this->request->data)) {
+        $this->Session->setFlash($this->Post->alias . ' Saved');
         $this->redirect(array('action' => 'index'));
       }
     }
   }
 
   public function index() {
-    // This query grabs all the user information from the database including the
-    // plain text passwords. Since we're not using the password, we should not
-    // be reading them.
-    $this->set('users', $this->User->find('all'));
+    $this->set('posts', $this->Post->find('all'));
   }
 
   public function isAuthorized($user = NULL) {
-    return $user && $user['administrator'];
-  }
-
-  public function login() {
-    if ($this->request->is('POST')) {
-      if ($this->Auth->login()) {
-        $this->redirect($this->Auth->redirect());
-      } else {
-        $this->Session->setFlash('Invalid Credentials');
-      }
-    }
-  }
-
-  public function logout() {
-    $this->redirect($this->Auth->logout());
+    return (bool)$user;
   }
 }

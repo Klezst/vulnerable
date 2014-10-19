@@ -1,3 +1,4 @@
+<?php
 /**
  * This file is part of Vulnerable.
  *
@@ -14,23 +15,18 @@
  * You should have received a copy of the GNU General Public License
  * along with Vulnerable. If not, see <http://www.gnu.org/licenses/>.
  */
+?>
 
-/**
- * This SQL script creates the database schema for Vulnerable and adds an admin
- * account.
- */
-
-CREATE TABLE posts (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  message TEXT NOT NULL,
-  title VARCHAR(64) NOT NULL,
-  user_id INT NOT NULL -- This should have a foreign key constraint.
-);
-
-CREATE TABLE users (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  administrator BOOLEAN NOT NULL,
-  password VARCHAR(32) NOT NULL,
-  suspended BOOLEAN NOT NULL,
-  username VARCHAR(32) NOT NULL UNIQUE
-);
+<div class="users form">
+<?php echo $this->Session->flash('auth'); ?>
+<?php echo $this->Form->create('User'); ?>
+    <fieldset>
+        <legend>
+            <?php echo __('Please enter your username and password'); ?>
+        </legend>
+        <?php echo $this->Form->input('username');
+        echo $this->Form->input('password');
+    ?>
+    </fieldset>
+<?php echo $this->Form->end(__('Login')); ?>
+</div>

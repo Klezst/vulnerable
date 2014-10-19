@@ -1,3 +1,4 @@
+<?php
 /**
  * This file is part of Vulnerable.
  *
@@ -15,22 +16,17 @@
  * along with Vulnerable. If not, see <http://www.gnu.org/licenses/>.
  */
 
+App::uses('AbstractPasswordHasher', 'Controller/Component/Auth');
+
 /**
- * This SQL script creates the database schema for Vulnerable and adds an admin
- * account.
+ * Does not hash passwords. Instead just uses the plain text password.
  */
+class PlainTextPasswordHasher extends AbstractPasswordHasher {
+  public function hash($password) {
+      return $password;
+  }
 
-CREATE TABLE posts (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  message TEXT NOT NULL,
-  title VARCHAR(64) NOT NULL,
-  user_id INT NOT NULL -- This should have a foreign key constraint.
-);
-
-CREATE TABLE users (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  administrator BOOLEAN NOT NULL,
-  password VARCHAR(32) NOT NULL,
-  suspended BOOLEAN NOT NULL,
-  username VARCHAR(32) NOT NULL UNIQUE
-);
+  public function check($password, $hashedPassword) {
+      return $hashedPassword === $password;
+  }
+}
