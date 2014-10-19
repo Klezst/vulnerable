@@ -38,7 +38,13 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link($cakeDescription, 'http://cakephp.org'); ?></h1>
+			<h1>Vulnerable Web Application</h1>
+			<p>
+				<strong>WARNING:</strong> This is a vulnerable web application. Do NOT
+				use: It intentionally contains security vulnerabilities. I do not assume
+				any responsibility whatsoever for any damages that occur from the use of
+				this application.
+			</p>
 		</div>
 		<div id="content">
 
