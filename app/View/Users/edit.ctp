@@ -32,7 +32,11 @@
 </p>
 
 <?php
-  echo $this->Form->create('User');
+  echo $this->Form->create('User', array(
+    'inputDefaults' => array(
+      'escape' => FALSE
+    )
+  ));
   echo $this->Form->hidden('id');
   echo $this->Form->input('username');
 

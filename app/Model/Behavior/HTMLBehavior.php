@@ -15,17 +15,19 @@
  * You should have received a copy of the GNU General Public License
  * along with Vulnerable. If not, see <http://www.gnu.org/licenses/>.
  */
-?>
 
-<h2>Edit Post</h2>
-<?php
-  echo $this->Form->create('Post', array(
-    'inputDefaults' => array(
-      'escape' => FALSE
-    )
-  ));
-  echo $this->Form->hidden('id');
-  echo $this->Form->input('title');
-  echo $this->Form->input('message');
-  echo $this->Form->end('Save');
-?>
+App::uses('ModelBehavior', 'Model');
+App::uses('Sanitize', 'Utility');
+
+/**
+ * This class sanitizes all data read from the database for HTML.
+ */
+class HTMLBehavior extends ModelBehavior {
+  public function afterFind(Model $Model, $results, $primary = FALSE) {
+    if ($primary && Configure::read('moreSecure')) {
+      $results = Sanitize::clean($results);
+    }
+
+    return $results;
+  }
+}
