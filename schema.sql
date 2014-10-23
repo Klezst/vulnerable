@@ -20,6 +20,13 @@
  * account.
  */
 
+CREATE TABLE comments (
+  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  message TEXT NOT NULL,
+  posted_by VARCHAR(32) NOT NULL,
+  post_id INT NOT NULL -- This should have a foreign key constraint.
+);
+
 CREATE TABLE posts (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   message TEXT NOT NULL,

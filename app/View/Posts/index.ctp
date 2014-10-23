@@ -36,6 +36,18 @@
           $post['Post']['id']), array('method' => 'DELETE')); ?>
     <?php endif; ?>
     <p><?php echo $post['Post']['message']; ?></p>
+
+    <?php foreach ($post['Comment'] as $comment): ?>
+      <h4>Comment by <?php echo $comment['posted_by']; ?></h4>
+      <?php if ($poster): ?>
+        <?php echo $this->Form->postLink('Delete', array('controller' =>
+          'comments', 'action' => 'delete', $comment['id']), array('method' =>
+          'delete')); ?>
+      <?php endif; ?>
+      <p><?php echo $comment['message']; ?></p>
+    <?php endforeach; ?>
+    <?php echo $this->Html->link('Add Comment', array('controller' =>
+      'comments', 'action' => 'add', $post['Post']['id'])); ?>
   <?php endforeach; ?>
 <?php else: ?>
   <p>There are no posts.</p>

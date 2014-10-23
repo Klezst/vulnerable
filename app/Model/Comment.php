@@ -19,15 +19,11 @@
 App::uses('AppModel', 'Model');
 
 /**
- * This class represents a post and handles database operations.
+ * This class represents a comment and handles database operations.
  */
-class Post extends AppModel {
+class Comment extends AppModel {
   public $belongsTo = array(
-    'User'
-  );
-
-  public $hasMany = array(
-    'Comment'
+    'Post'
   );
 
   public $validate = array(
@@ -42,7 +38,7 @@ class Post extends AppModel {
         'message' => 'May Not Be Blank'
       ),
     ),
-    'title' => array(
+    'posted_by' => array(
       'notEmpty' => array(
         'required' => TRUE,
         'rule' => 'notEmpty',
@@ -53,8 +49,8 @@ class Post extends AppModel {
         'message' => 'May Not Be Blank'
       ),
       'maxLength' => array(
-        'rule' => array('maxLength', 64),
-        'message' => 'Exceedes 64 Characters'
+        'rule' => array('maxLength', 32),
+        'message' => 'Exceedes 32 Characters'
       )
     )
   );

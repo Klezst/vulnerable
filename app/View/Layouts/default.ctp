@@ -38,13 +38,27 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <body>
 	<div id="container">
 		<div id="header">
-			<h1>Vulnerable Web Application</h1>
-			<p>
-				<strong>WARNING:</strong> This is a vulnerable web application. Do NOT
-				use: It intentionally contains security vulnerabilities. I do not assume
-				any responsibility whatsoever for any damages that occur from the use of
-				this application.
-			</p>
+			<div style="float:left;max-width:75%;">
+				<h1>Vulnerable Web Application</h1>
+				<p>
+					<strong>WARNING:</strong> This is a vulnerable web application. Do NOT
+					use: It intentionally contains security vulnerabilities. I do not
+					assume any responsibility whatsoever for any damages that occur from
+					the use of this application.
+				</p>
+			</div>
+			<div style="float:right;">
+				<?php
+					if ($this->Session->check('Auth.User')):
+						echo $this->Html->link('Logout', array('controller' => 'users',
+							'action' => 'logout'));
+					else:
+						echo $this->Html->link('Login', array('controller' => 'users',
+							'action' => 'login'));
+					endif;
+				?>
+			</div>
+
 		</div>
 		<div id="content">
 

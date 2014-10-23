@@ -22,7 +22,7 @@ App::uses('AppController', 'Controller');
  * This class processes requests about users.
  */
 class PostsController extends AppController {
-  public function add($id = NULL) {
+  public function add() {
     $this->request->allowMethod(array('GET', 'POST'));
 
     if ($this->request->is('POST')) {
