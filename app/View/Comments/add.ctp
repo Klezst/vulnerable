@@ -21,7 +21,20 @@
 <?php
   echo $this->Form->create('Comment');
   echo $this->Form->hidden('post_id');
-  echo $this->Form->input('posted_by');
-  echo $this->Form->input('message');
-  echo $this->Form->end('Save');
+  echo $this->Form->input('posted_by', array(
+    'class' => 'form-control',
+    'div' => array(
+      'class' => 'form-group'
+    )
+  ));
+  echo $this->Form->input('message', array(
+    'class' => 'form-control',
+    'div' => array(
+      'class' => 'form-group'
+    )
+  ));
+  echo $this->Form->end(array(
+    'class' => 'btn btn-default',
+    'label' => 'Save'
+  ));
 ?>

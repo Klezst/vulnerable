@@ -1,96 +1,107 @@
 <?php
 /**
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- *
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
- *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.View.Layouts
- * @since         CakePHP(tm) v 0.10.0.1076
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
- */
-
-$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
-$cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
+* This file is part of Vulnerable.
+*
+* Vulnerable is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* Vulnerable is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with Vulnerable. If not, see <http://www.gnu.org/licenses/>.
+*/
 ?>
+
 <!DOCTYPE html>
+
 <html>
-<head>
-	<?php echo $this->Html->charset(); ?>
-	<title>
-		Vulnerable Web Application:
-		<?php echo $title_for_layout; ?>
-	</title>
-	<?php
-		echo $this->Html->meta('icon');
+	<head>
+		<?php echo $this->Html->charset(); ?>
+		<title>
+			Vulnerable Web Application:
+			<?php echo $title_for_layout; ?>
+		</title>
 
-		echo $this->Html->css('cake.generic');
+		<?php
+			echo $this->Html->meta('icon');
 
-		echo $this->fetch('meta');
-		echo $this->fetch('css');
-		echo $this->fetch('script');
-	?>
-</head>
-<body>
-	<div id="container">
-		<div id="header">
-			<div style="float:left;max-width:75%;">
-				<h1>Vulnerable Web Application</h1>
-				<p>
-					<strong>WARNING:</strong> This is a vulnerable web application. Do NOT
-					use: It intentionally contains security vulnerabilities. I do not
-					assume any responsibility whatsoever for any damages that occur from
-					the use of this application.
-				</p>
+			echo $this->Html->css(array(
+				'bootstrap.min',
+				'custom'
+			));
+			echo $this->Html->script(array(
+				'jquery.min',
+				'bootstrap.min'
+			));
+
+			echo $this->fetch('meta');
+			echo $this->fetch('css');
+			echo $this->fetch('script');
+		?>
+	</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-default" role="navigation">
+			  <div class="container-fluid">
+			    <div class="navbar-header">
+			      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+			        <span class="sr-only">Toggle navigation</span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			        <span class="icon-bar"></span>
+			      </button>
+			      <a class="navbar-brand" href="/">Vulnerable Web Application</a>
+			    </div>
+
+			    <div class="collapse navbar-collapse" id="navbar-collapse">
+			      <ul class="nav navbar-nav">
+							<?php if ($this->Session->check('Auth.User')): ?>
+								<?php if ($this->Session->read('Auth.User.administrator')): ?>
+									<?php if ($this->name == 'Posts'): ?>
+										<li><?php echo $this->Html->link('Users', array(
+											'controller' => 'users')); ?></li>
+									<?php else: ?>
+										<li><?php echo $this->Html->link('Posts', array(
+											'controller' => 'posts')); ?></li>
+									<?php endif; ?>
+								<?php endif; ?>
+
+								<li><?php echo $this->Html->link('Edit Profile', array(
+									'controller' => 'users', 'action' => 'edit',
+									$this->Session->read('Auth.User.id'))); ?></li>
+								<li><?php echo $this->Html->link('Logout', array(
+									'controller' => 'users', 'action' => 'logout')); ?></li>
+							<?php else: ?>
+								<li><?php echo $this->Html->link('Login', array(
+									'controller' => 'users', 'action' => 'login')); ?></li>
+							<?php endif; ?>
+			      </ul>
+			    </div>
+			  </div>
+			</nav>
+		</header>
+		<main>
+			<div class="alert alert-warning" role="alert">
+				<strong>WARNING:</strong> This is a vulnerable web application. Do NOT
+				use it: This application intentionally contains security
+				vulnerabilities. I do not assume any responsibility whatsoever for any
+				damages that occur from the use of this application.
 			</div>
-			<div style="float:right;">
-				<?php
-					if ($this->Session->check('Auth.User')):
-						if ($this->Session->read('Auth.User.administrator')):
-							if ($this->name == 'Posts'):
-								echo $this->Html->link('Users', array('controller' => 'users')).
-									' ';
-							else:
-								echo $this->Html->link('Posts', array('controller' => 'posts')).
-									' ';
-							endif;
-						endif;
 
-						echo $this->Html->link('Edit Profile', array('controller' =>
-							'users', 'action' => 'edit',
-							$this->Session->read('Auth.User.id'))) . ' ';
-						echo $this->Html->link('Logout', array('controller' => 'users',
-							'action' => 'logout'));
-					else:
-						echo $this->Html->link('Login', array('controller' => 'users',
-							'action' => 'login'));
-					endif;
-				?>
-			</div>
-
-		</div>
-		<div id="content">
-
-			<?php echo $this->Session->flash(); ?>
+			<?php $flash = $this->Session->flash(); ?>
+			<?php if ($flash): ?>
+				<div class="alert alert-info" role="alert"><?php echo $flash; ?></div>
+			<?php endif; ?>
 
 			<?php echo $this->fetch('content'); ?>
-		</div>
-		<div id="footer">
-			<?php echo $this->Html->link(
-					$this->Html->image('cake.power.gif', array('alt' => $cakeDescription, 'border' => '0')),
-					'http://www.cakephp.org/',
-					array('target' => '_blank', 'escape' => false, 'id' => 'cake-powered')
-				);
-			?>
-			<p>
-				<?php echo $cakeVersion; ?>
-			</p>
-		</div>
-	</div>
-	<?php echo $this->element('sql_dump'); ?>
-</body>
+		</main>
+		<footer>
+			<?php echo $this->element('sql_dump'); ?>
+		</footer>
+	</body>
 </html>

@@ -18,9 +18,12 @@
 ?>
 
 <h2>Users</h2>
-<?php echo $this->Html->link('Add User', array('action' => 'add')); ?>
+<?php echo $this->Html->link(
+  '<span class="glyphicon glyphicon-plus"></span> Add User',
+  array('action' => 'add'), array('class' => 'btn btn-default',
+  'escape' => FALSE)); ?>
 <?php if ($users): ?>
-  <table>
+  <table class="table table-striped table-hover">
     <thead>
       <tr>
         <th>Username</th>
@@ -35,14 +38,10 @@
           <td><?php echo $user['User']['username']; ?></td>
           <td><?php echo $user['User']['administrator'] ? '&#10003;' : ''; ?>
           <td><?php echo $user['User']['suspended'] ? '&#10003;' : ''; ?>
-          <td>
-            <?php
-              echo $this->Html->link('Edit', array(
-                'action' => 'edit',
-                $user['User']['id']
-              ));
-            ?>
-          </td>
+          <td><?php echo $this->Html->link(
+            '<span class="glyphicon glyphicon-pencil"></span> Edit',
+            array('action' => 'edit', $user['User']['id']),
+            array('escape' => FALSE)); ?></td>
         </tr>
       <?php endforeach; ?>
     </tbody>

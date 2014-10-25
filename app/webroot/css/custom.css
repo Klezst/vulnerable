@@ -1,0 +1,12 @@
+/* Override Bootstrap */
+blockquote {
+  font-size: 14px;
+}
+input[type=checkbox] {
+  margin-left: 0 !important;
+}
+
+main {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}

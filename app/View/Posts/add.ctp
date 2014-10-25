@@ -20,7 +20,20 @@
 <h2>Add Post</h2>
 <?php
   echo $this->Form->create('Post');
-  echo $this->Form->input('title');
-  echo $this->Form->input('message');
-  echo $this->Form->end('Save');
+  echo $this->Form->input('title', array(
+    'class' => 'form-control',
+    'div' => array(
+      'class' => 'form-group'
+    )
+  ));
+  echo $this->Form->input('message', array(
+    'class' => 'form-control',
+    'div' => array(
+      'class' => 'form-group'
+    )
+  ));
+  echo $this->Form->end(array(
+    'class' => 'btn btn-default',
+    'label' => 'Save'
+  ));
 ?>

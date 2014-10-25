@@ -15,21 +15,25 @@
  * You should have received a copy of the GNU General Public License
  * along with Vulnerable. If not, see <http://www.gnu.org/licenses/>.
  */
+
+ $admin = $this->Session->read('Auth.User.administrator');
 ?>
 
 <h2>Edit User</h2>
-<p>
-  Submitting this form will enable the user to login and make blog posts. If you
-  make them an administrator, they will also be able to manage users. You'll
-  need to notify the user of their login credentials manually, if you change
-  their password. Suspending the user will prevent them from logging into the
-  system.
+<?php if ($admin): ?>
+  <p>
+    Submitting this form will enable the user to login and make blog posts. If you
+    make them an administrator, they will also be able to manage users. You'll
+    need to notify the user of their login credentials manually, if you change
+    their password. Suspending the user will prevent them from logging into the
+    system.
 
-  <?php if (Configure::read('moreSecure')): ?>
-    <strong>Warning:</strong> You should make it clear that the user should use a
-    unique password for this website <abbr title="As Soon As Possible">ASAP</abbr>.
-  <?php endif; ?>
-</p>
+    <?php if (Configure::read('moreSecure')): ?>
+      <strong>Warning:</strong> You should make it clear that the user should use a
+      unique password for this website <abbr title="As Soon As Possible">ASAP</abbr>.
+    <?php endif; ?>
+  </p>
+<?php endif; ?>
 
 <?php
   echo $this->Form->create('User', array(
@@ -38,15 +42,25 @@
     )
   ));
   echo $this->Form->hidden('id');
-  echo $this->Form->input('username');
+  echo $this->Form->input('username', array(
+    'class' => 'form-control',
+    'div' => array(
+      'class' => 'form-group'
+    )
+  ));
 
   // We should be using a password form control, instead of just text.
   // Administrators should not be able to change a users password. They should
   // not be able to see the users password either. Administrators should never
   // know a user's password.
-  echo $this->Form->input('password');
+  echo $this->Form->input('password', array(
+    'class' => 'form-control',
+    'div' => array(
+      'class' => 'form-group'
+    )
+  ));
 
-  if ($this->Session->read('Auth.User.administrator')):
+  if ($admin):
     echo $this->Form->input('administrator', array(
       'required' => FALSE,
       'type' => 'checkbox'
@@ -56,6 +70,9 @@
       'type' => 'checkbox'
     ));
   endif;
-  
-  echo $this->Form->end('Save');
+
+  echo $this->Form->end(array(
+    'class' => 'btn btn-default',
+    'label' => 'Save'
+  ));
 ?>

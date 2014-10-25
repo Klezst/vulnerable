@@ -21,33 +21,58 @@
 
 <h2>Posts</h2>
 <?php if ($poster): ?>
-  <?php echo $this->Html->link('Add Post', array('action' => 'add')); ?>
+  <p>
+    <?php echo $this->Html->link(
+      '<span class="glyphicon glyphicon-plus"></span> Add Post',
+      array('action' => 'add'), array('class' => 'btn btn-default',
+      'escape' => FALSE)); ?>
+  </p>
 <?php endif; ?>
 <?php if ($posts): ?>
   <?php foreach ($posts as $post): ?>
-    <h3>
-      <?php echo $post['Post']['title']; ?>
-      <small>by <?php echo $post['User']['username']; ?></small>
-    </h3>
-    <?php if ($poster): ?>
-        <?php echo $this->Html->link('Edit', array('action' => 'edit',
-          $post['Post']['id'])); ?>
-        <?php echo $this->Form->postLink('Delete', array('action' => 'delete',
-          $post['Post']['id']), array('method' => 'DELETE')); ?>
-    <?php endif; ?>
-    <p><?php echo $post['Post']['message']; ?></p>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">
+          <?php echo $post['Post']['title']; ?>
+          <small>
+            by <?php echo $post['User']['username']; ?>
+          </small>
+          <?php if ($poster): ?>
+            <div class="pull-right">
+              <?php echo $this->Html->link(
+                '<span class="glyphicon glyphicon-pencil"></span>',
+                array('action' => 'edit', $post['Post']['id']),
+                array('escape' => FALSE)); ?>
+              <?php echo $this->Form->postLink(
+                '<span class="glyphicon glyphicon-remove"></span>',
+                array('action' => 'delete', $post['Post']['id']),
+                array('escape' => FALSE, 'method' => 'DELETE')); ?>
+            </div>
+          <?php endif; ?>
+        </h3>
+      </div>
+      <div class="panel-body">
+        <p><?php echo $post['Post']['message']; ?></p>
 
-    <?php foreach ($post['Comment'] as $comment): ?>
-      <h4>Comment by <?php echo $comment['posted_by']; ?></h4>
-      <?php if ($poster): ?>
-        <?php echo $this->Form->postLink('Delete', array('controller' =>
-          'comments', 'action' => 'delete', $comment['id']), array('method' =>
-          'delete')); ?>
-      <?php endif; ?>
-      <p><?php echo $comment['message']; ?></p>
-    <?php endforeach; ?>
-    <?php echo $this->Html->link('Add Comment', array('controller' =>
-      'comments', 'action' => 'add', $post['Post']['id'])); ?>
+        <?php foreach ($post['Comment'] as $comment): ?>
+          <blockquote>
+            <p>
+              <?php if ($poster): ?>
+                <?php echo $this->Form->postLink(
+                  '<span class="glyphicon glyphicon-remove"></span>',
+                  array('controller' => 'comments', 'action' => 'delete',
+                  $comment['id']), array('escape' => FALSE, 'method' =>
+                  'delete')); ?>
+              <?php endif; ?>
+              <?php echo $comment['message']; ?>
+            </p>
+            <footer><?php echo $comment['posted_by']; ?></footer>
+          </blockquote>
+        <?php endforeach; ?>
+        <?php echo $this->Html->link('Add Comment', array('controller' =>
+          'comments', 'action' => 'add', $post['Post']['id'])); ?>
+      </div>
+    </div>
   <?php endforeach; ?>
 <?php else: ?>
   <p>There are no posts.</p>
