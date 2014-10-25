@@ -22,7 +22,7 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $cakeDescription ?>:
+		Vulnerable Web Application:
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php

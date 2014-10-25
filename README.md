@@ -52,9 +52,11 @@ Malicious users can directly construct HTTP requests submitting whatever form
 data they want. To make it easier, you can simply use Google Chrome's Developer
 Tools (press F12 in Google Chrome) to edit the HTML. Firefox has a similar
 feature. This can be exploited to bypass authorization: altering your change
-password form to point to a different user thus changing their password. To do
-this you would only need to change the value of the hidden id field to another
-value.
+password form to include an administrator field set to true. To do this you
+would only need to add the following HTML to the form:
+```html
+<input type="hidden" name="data[User][administrator]" id="UserAdministrator_" value="1">
+```
 
 ### Cross-site Request Forgery (CSRF)
 Exploiting this vulnerability can cause a user to inadvertently perform actions

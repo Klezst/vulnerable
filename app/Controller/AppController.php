@@ -52,4 +52,12 @@ class AppController extends Controller {
     'Form',
     'Session'
   );
+
+  public function __construct($request = NULL, $response = null) {
+    if (Configure::read('moreSecure')) {
+      $this->components[] = 'Security';
+    }
+
+    parent::__construct($request, $response);
+  }
 }

@@ -67,6 +67,7 @@ class PostsController extends AppController {
         throw new NotFoundException('No such user exists');
       }
     } else if ($this->request->is(array('POST', 'PUT'))) {
+      $this->request->data['Post']['user_id'] = $this->Auth->user('id');
       if ($this->Post->save($this->request->data)) {
         $this->Session->setFlash($this->Post->alias . ' Saved');
         $this->redirect(array('action' => 'index'));
