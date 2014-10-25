@@ -25,7 +25,7 @@ class User extends AppModel {
   public $validate = array(
     'administrator' => array(
       'boolean' => array(
-        'required' => TRUE,
+        'required' => FALSE,
         'rule' => 'boolean',
         'message' => 'Yes or No Only'
       )
@@ -47,7 +47,7 @@ class User extends AppModel {
     ),
     'suspended' => array(
       'boolean' => array(
-        'required' => TRUE,
+        'required' => FALSE,
         'rule' => 'boolean',
         'message' => 'Yes or No Only'
       )

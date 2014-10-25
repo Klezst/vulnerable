@@ -57,7 +57,12 @@ class UsersController extends AppController {
     } else if ($this->request->is(array('POST', 'PUT'))) {
       if ($this->User->save($this->request->data)) {
         $this->Session->setFlash($this->User->alias . ' Saved');
-        $this->redirect(array('action' => 'index'));
+
+        if ($this->Session->read('Auth.User.administrator')) {
+          $this->redirect(array('action' => 'index'));
+        } else {
+          $this->redirect(array('controller' => 'posts'));
+        }
       }
     }
   }
@@ -70,7 +75,9 @@ class UsersController extends AppController {
   }
 
   public function isAuthorized($user = NULL) {
-    return $user && $user['administrator'];
+    return $user && ($user['administrator'] || $this->action == 'edit' &&
+      $this->request->params['pass'] && $this->request->params['pass'][0] ==
+      $user['id']);
   }
 
   public function login() {

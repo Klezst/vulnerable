@@ -60,6 +60,9 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 							endif;
 						endif;
 
+						echo $this->Html->link('Edit Profile', array('controller' =>
+							'users', 'action' => 'edit',
+							$this->Session->read('Auth.User.id'))) . ' ';
 						echo $this->Html->link('Logout', array('controller' => 'users',
 							'action' => 'logout'));
 					else:

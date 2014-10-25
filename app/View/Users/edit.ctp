@@ -46,13 +46,16 @@
   // know a user's password.
   echo $this->Form->input('password');
 
-  echo $this->Form->input('administrator', array(
-    'required' => FALSE,
-    'type' => 'checkbox'
-  ));
-  echo $this->Form->input('suspended', array(
-    'required' => FALSE,
-    'type' => 'checkbox'
-  ));
+  if ($this->Session->read('Auth.User.administrator')):
+    echo $this->Form->input('administrator', array(
+      'required' => FALSE,
+      'type' => 'checkbox'
+    ));
+    echo $this->Form->input('suspended', array(
+      'required' => FALSE,
+      'type' => 'checkbox'
+    ));
+  endif;
+  
   echo $this->Form->end('Save');
 ?>
