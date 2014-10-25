@@ -106,7 +106,19 @@ any damages that occur from code based on this project, its attack resistant
 code or examples. I do not guarantee that the attack resistant code is free
 of vulnerabilities.
 
+## Installation
+Do not install this software on a production device. You can install the
+software by following the [CakePHP installation instructions](
+http://book.cakephp.org/2.0/en/installation.html), but use vulnerable's source
+code instead of CakePHP's. After completing the CakePHP installation
+instructions, run the schema.sql file on the database. You'll probably want to
+manually insert an administrator user account into the database too:
+```sql
+INSERT INTO users (administrator, password, username) VALUES (1, 'YOURPASSWORD', 'YOURUSERNAME');
+```
+
 ## Technology Colophon
 Here's a list of some technologies used by this application.
 * [Bootstrap](http://getbootstrap.com)
 * [CakePHP](http://cakephp.org)
+* [jQuery](https://jquery.org/)
