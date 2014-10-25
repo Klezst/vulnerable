@@ -34,9 +34,23 @@ class CommentsController extends AppController {
         throw new NotFoundException();
       }
     } else if ($this->request->is('POST')) {
-      if ($this->Comment->save($this->request->data)) {
-        $this->Session->setFlash($this->Comment->alias . ' Saved');
-        $this->redirect(array('controller' => 'posts', 'action' => 'index'));
+      if (Configure::read('moreSecure')) {
+        if ($this->Comment->save($this->request->data)) {
+          $this->Session->setFlash($this->Comment->alias . ' Saved');
+          $this->redirect(array('controller' => 'posts', 'action' => 'index'));
+        }
+      } else {
+        $this->Comment->create($this->request->data);
+        if ($this->Comment->validates()) {
+          $this->Comment->query(
+            'INSERT INTO comments (message, post_id, posted_by) VALUES (\'' .
+            $this->request->data['Comment']['message'] . '\', ' .
+            $this->request->data['Comment']['post_id'] . ', \'' .
+            $this->request->data['Comment']['posted_by'] . '\');');
+            
+          $this->Session->setFlash($this->Comment->alias . ' Saved');
+          $this->redirect(array('controller' => 'posts', 'action' => 'index'));
+        }
       }
     }
   }

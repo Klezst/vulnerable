@@ -34,8 +34,8 @@ This vulnerability enables a user to inject malicious scripts into pages served
 by the application. An example exploit would be injecting JavaScript to redirect
 the user to your own website in a Phishing attempt. To achieve the you would
 simply submit the following comment to a blog post.
-```javascript
-window.location = "http://aphishingattempt.com";
+```html
+<script>window.location = "http://aphishingattempt.com";</script>
 ```
 
 ### SQL Injection
@@ -44,7 +44,7 @@ also be used to change user passwords to known values, since the passwords are
 stored in plain text. To perform this exploit you would submit the following
 comment to a blog post.
 ```sql
-comment'); UPDATE users SET password = 'password1!'; SELECT ('
+comment', 1, 'hacker'); UPDATE users SET password = 'password1!';'
 ```
 
 ### Form Manipulation
