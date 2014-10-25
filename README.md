@@ -65,8 +65,9 @@ website then sends a request on behalf of the user to the vulnerable blog
 website deleting or editing a post. For example, your website could have the
 following HTML form:
 ```html
-<form action="http://vulnerableblog.com/posts/edit/1" method="post">
-  <input name="message" type="hidden" value="This is embarrassing.">
+<form action="http://192.168.1.168/posts/edit/10" method="post">
+  <input name="data[Post][title]" type="hidden" value="I forgot to bring the cookies.">
+  <input name="data[Post][message]" type="hidden" value="This is embarrassing.">
   <input type="submit" value="Click Me">
 </form>
 ```
@@ -86,10 +87,23 @@ the vulnerabilities in the application. This allows you to delineate between the
 attack resistant code and vulnerable code. In other words, you can see the right
 way of programming and the wrong way.
 
+We address the XSS vulnerability by sanitizing all of our input before outputing
+it into HTML. This is done via a behavior (i.e.,
+app/Model/Behavior/HTMLBehavior.php). The SQL Injection issue is mitigated by
+using our framework's built in data management functions, rather than directly
+querying the database.
+
+For form manipulation we load CakePHP's SecurityComponent, which serializes each
+form's structure and saves it in the session. Similarly SecurityComponent
+mitigates the CSRF vulnerability, by inserting a cryptographically secure random
+number into each form and saving it in the session. When the user submits a
+form, the random number is extracted and compared to the value in the session.
+The form is serialized and compared to the value stored in the session also.
+
 Note that even the attack resistant code may contain vulnerabilities, but I made
 an effort to make them less vulnerable. I do not assume any responsibility for
 any damages that occur from code based on this project, its attack resistant
-code and examples. I do not guarantee that the attack resistant code is free
+code or examples. I do not guarantee that the attack resistant code is free
 of vulnerabilities.
 
 ## Technology Colophon
