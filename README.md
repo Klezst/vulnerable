@@ -44,7 +44,7 @@ also be used to change user passwords to known values, since the passwords are
 stored in plain text. To perform this exploit you would submit the following
 comment to a blog post.
 ```sql
-comment', 1, 'hacker'); UPDATE users SET password = 'password1!';'
+comment', 1, 'hacker'); UPDATE users SET password = 'password1!';
 ```
 
 ### Form Manipulation

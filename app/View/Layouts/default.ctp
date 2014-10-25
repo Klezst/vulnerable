@@ -50,6 +50,16 @@ $cakeVersion = __d('cake_dev', 'CakePHP %s', Configure::version())
 			<div style="float:right;">
 				<?php
 					if ($this->Session->check('Auth.User')):
+						if ($this->Session->read('Auth.User.administrator')):
+							if ($this->name == 'Posts'):
+								echo $this->Html->link('Users', array('controller' => 'users')).
+									' ';
+							else:
+								echo $this->Html->link('Posts', array('controller' => 'posts')).
+									' ';
+							endif;
+						endif;
+
 						echo $this->Html->link('Logout', array('controller' => 'users',
 							'action' => 'logout'));
 					else:
